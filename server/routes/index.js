@@ -1,11 +1,10 @@
+import express from 'express';
+import index from './controlles/index';
 
-import Recipe from '../controller/recipe';
+const router = express.Router();
 
-export default (app) => {
-  app.get('/api/recipes', Recipe.getallRecipe);
-  app.post('/api/recipes', Recipe.createRecipe);
-  app.put('/api/recipes/:recipeId', Recipe.updateRecipe);
-  app.delete('/api/recipes/:recipeId', Recipe.deleteRecipe);
-  app.get('/api/recipes/:recipeId', Recipe.retrieveRecipe);
-  app.post('/api/recipes/:recipeId/reviews', Recipe.addReview);
-};
+/* GET users listing. */
+router.get('/', index);
+
+export default router;
+
