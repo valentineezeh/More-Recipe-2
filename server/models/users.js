@@ -1,86 +1,69 @@
-'use strict';
-import bcrypt from 'bcrypt-nodejs';
+/**
+* This function creates the model of
+* Users table in the database, specifying
+* relationships, datatypes and constraints.
+*
+*/
+import bcrypt from 'bcrypt';
 
-module.exports = (sequelize, DataTypes) => {
-  var Users = sequelize.define('Users', {
-    firstname: {
-      type: DataTypes.STRING,
-      required: true,
+export default (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    id: {
       allowNull: false,
-      unique: true,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
     },
-    lastname: DataTypes.STRING,
-    email: {
+    fullName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isEmail: {
-          msg: "Email address must be valid"
-        },
-        len: {
-          args: [6, 128],
-          msg: "Email address must be between 6 and 128 characters in length"
-        },
+        notEmpty: { msg: 'Empty strings not allowed' }
       }
     },
-    password: DataTypes.STRING,
-    phone: {
+    email: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: { msg: 'Enter a Valid Email' },
+      }
     },
-    image: {
+    sex: {
       type: DataTypes.STRING,
-      allowNull: true
-    }
+      allowNull: false
+    },
+    userName: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    confirmPassword: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, {
-      classMethods: {
-        associate: function (models) {
-          //associations can be defined here
-          User.hasMany(models.Recipes, {
-            foreignKey: 'userId',
-          });
-
-          User.hasMany(models.Reviews, {
-            foreignKey: 'userId'
-          });
-          User.hasMany(models.Favorites, {
-            foreignKey: 'userId'
-          });
-        }
-      },
-      instanceMethods: {
-
-        /**
-         * compare the input password with the hashed password stored
-         * @param {String} password
-         * @returns {Boolean} true or false
-         */
-        matchPassword(password) {
-          return bcrypt.compareSync(password, this.password);
-        },
-
-        /**
-         * hashes the password before storing
-         * @param {String} password
-         * @returns {void} no return
-         */
-        hashPassword() {
-          this.password = bcrypt.hashSync(this.password.trim(), bcrypt.genSaltSync(10));
-        }
-      },
-      hooks: {
-        beforeCreate(user) {
-          const salt = bcrypt.genSaltSync(8);
-          user.password = bcrypt.hashSync(user.password, salt);
-        },
-        beforeUpdate(user) {
-          if (user.password) {
-            const salt = bcrypt.genSaltSync(8);
-            user.password = bcrypt.hashSync(user.password, salt);
-            user.updateAt = Date.now();
-          }
-        }
-      },
-    })
-  return Users;
+    hooks: {
+    // beforeCreate: (newUser) => {
+    //   newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync(8));
+    //   newUser.confirmPassword = bcrypt.hashSync(newUser.confirmPassword, bcrypt.genSaltSync(8));
+    // },
+      afterUpdate: (newUser) => {
+        newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync(8));
+        newUser.confirmPassword = bcrypt.hashSync(newUser.confirmPassword, bcrypt.genSaltSync(8));
+      }
+    }
+  });
+  User.associate = (models) => {
+    // associations can be defined here
+    User.hasMany(models.Recipes, { foreignKey: 'userId' });
+    User.hasMany(models.Reviews, { foreignKey: 'userId' });
+    User.hasMany(models.Favorites, { foreignKey: 'userId' });
+    User.hasMany(models.votes, { foreignKey: 'userId' });
+  };
+  return User;
 };
