@@ -1,44 +1,52 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  var Recipes = sequelize.define('Recipes', {
+
+
+export default (sequelize, DataTypes) => {
+  const Recipe = sequelize.define('Recipes', {
+    id: {
+      allowNull: true,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    userId: {
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'id'
+      },
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Empty strings not allowed' }
+      }
     },
-    ingredients: DataTypes.STRING,
-    direction: DataTypes.STRING,
-    viewCount: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Empty strings not allowed' }
+      }
     },
     upvotes: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 0
-    },
-    downvotes: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 0
-    },
-    image: DataTypes.STRING,
-    description: DataTypes.STRING,
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Users',
-        key: 'id',
-        as: 'userId',
+      defaultValue: 0,
+      validate: {
+        notEmpty: { msg: 'Empty strings not allowed' }
       }
-    }
+    },
   });
-  Recipes.associate = (models) => {
-    Recipes.belongsTo(models.Users, {
-      foreignKey: 'userId',
-    });
-    Recipes.hasMany(models.Reviews, {
-      foreignKey: 'recipeId'
-    });
-  }
-  return Recipes;
+  // Recipe.associate = (models) => {
+  //   // associations can be defined here
+  //   Recipe.hasMany(models.Favorites, { foreignKey: 'recipeId', onDelete: 'SET NULL' });
+
+  // };
+  Recipe.associate = (models) => {
+    // associations can be defined here
+    Recipe.hasMany(models.votes, { foreignKey: 'recipeId', onDelete: 'SET NULL' });
+  };
+  return Recipe;
 };

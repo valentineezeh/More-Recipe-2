@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/style.css">
-        <title>More-Recipes</title>
+        <title>More-Recipes | Profile</title>
     </head>
 
     <body id="home">
@@ -30,7 +30,7 @@
                             <a href="add-recipe.html" class="nav-link">Add Recipe</a>
                         </li>
                         <li class="nav-item">
-                            <a href="my-recipe.html" class="nav-link active">My Recipes</a>
+                            <a href="my-recipe.html" class="nav-link">My Recipes</a>
                         </li>
                         <li class="nav-item">
                             <a href="my-favorite.html" class="nav-link">Favorites</a>
@@ -51,7 +51,7 @@
             </div>
         </nav>
 
-        <!-- HOME SECTION -->
+        <!-- PROFILE SECTION -->
         <header id="header">
             
         </header>
@@ -60,7 +60,7 @@
         <div class="container">
             <nav class="breadcrumb">            
                 <a class="breadcrumb-item" href="index.html">Home</a>
-                <span class="breadcrumb-item active">my-recipe</span>            
+                <span class="breadcrumb-item active">Profile</span>            
             </nav>  
         </div>
 
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="list-group mb-3">
-                            <li class="list-group-item active text-center"><h5>DURUGO CHUKS</h5></li>
+                            <li class="list-group-item active text-center"><h5>Valentine Ezeh</h5></li>
                             <a href="my-recipe.html" class="list-group-item"><i class="fa fa-cutlery" aria-hidden="true"></i> My Recipes <span class="badge badge-pill badge-info float-right">2</span></a>
                             <a href="my-favorite.html" class="list-group-item"><i class="fa fa-star" aria-hidden="true"></i> My Favourites <span class="badge badge-pill badge-info float-right">4</span></a>
                             <a href="profile.html" class="list-group-item"><i class="fa fa-user" aria-hidden="true"></i> My Profile</a>
@@ -103,27 +103,23 @@
                         </ul>                        
                     </div>
 
-                    <!-- RECIPE CATALOG -->
+                    <!-- USER PROFILE -->
                     <div class="col-md-8" id="display">
-                        <input class="form-control" type="text" placeholder="Filter Recipes...">
-                        <br>
-                        <table class="table table-hover">
-                                <tr>
-                                    <th>Title</th>                                    
-                                    <th>Created</th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td><a href="recipe.html">Sweetened Rice Meal</a></td>                                    
-                                    <td>September 12, 2017</td>
-                                    <td><a href="#" data-toggle="modal" title="Edit" data-target="#editRecipe"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;</a> <a href="#" title="Delete" data-toggle="modal" data-target="#delete"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="recipe.html">Pepper Soup Meal</a></td>                                    
-                                    <td>September 15, 2017</td>
-                                    <td><a href="#" data-toggle="modal" title="Edit" data-target="#editRecipe"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;</a> <a href="#" title="Delete" data-toggle="modal" data-target="#delete"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></td>
-                                </tr>                                
-                        </table>                       
+                        <div class="d-flex flex-row">
+                            <div class="p-2 align-self-start">
+                                <img src="./img/ugo.jpg" alt="myPix" width="300" height="300">
+                            </div>
+                            <div class="p-2 align-self-end">                                                                                               
+                                <p><span class="obj-color">About:</span>&nbsp Software Developer</p>
+                                <p><span class="obj-color">Hobbies:</span>&nbsp Programming, Singing</p>
+                                <p><i class="fa fa-envelope-o obj-color" aria-hidden="true"></i>&nbsp val.ezeh15@gmail.com</p>                                   
+                                <address><i class="fa fa-map-marker obj-color" aria-hidden="true"></i>&nbsp Sabo-Yaba, Nigeria</address>                          
+                                <p><i class="fa fa-phone obj-color" aria-hidden="true"></i>&nbsp 08074037215</p>
+                                <p><i class="fa fa-user obj-color" aria-hidden="true"></i>&nbsp Crystaldee</p>
+                                <a class="btn btn-info" href="#" role="button" data-toggle="modal" data-target="#changePassword">Change Password</a>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,13 +140,13 @@
                 </div>
             </footer>
 
-                <!-- EDIT RECIPE MODAL -->
-            <div class="modal fade text-dark" id="editRecipe">
+            <!-- RECIPE MODAL -->
+            <div class="modal fade text-dark" id="addRecipe">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header bg-info">
+                            <div class="modal-header bg-primary">
                                 <h5 class="modal-title" style="color:rgb(255, 255, 255)" id="contactModalTitle">
-                                    Edit Recipe
+                                    Add Recipe
                                 </h5>
                             </div>
                             <div class="modal-body">
@@ -171,32 +167,89 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-info btn-block" data-dismiss="modal">Update</button>
+                                <button class="btn btn-primary btn-block">Submit</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- DELETE RECIPE MODAL -->
-                <div class="modal fade text-dark" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Message</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
+            <!-- CHANGE PASSWORD MODAL -->
+            <div class="modal fade text-dark" id="changePassword">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <h5 class="modal-title" style="color:rgb(255, 255, 255)" id="contactModalTitle">
+                                    Change Password
+                                </h5>
                             </div>
                             <div class="modal-body">
-                                Recipe Successfully Deleted
+                                <form>
+                                    <div class="form-group">
+                                        <label for="name">Old Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">New Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Confirm Password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                                
-                            </div>
+                                <button class="btn btn-info btn-block">Change</button>
                             </div>
                         </div>
                     </div>
+                </div>
 
+            <!-- PROFILE MODAL -->
+            <div class="modal fade text-dark" id="editProfile">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h5 class="modal-title" style="color:rgb(255, 255, 255)" id="contactModalTitle">
+                                    Edit Profile
+                                </h5>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="name">Full Name</label>
+                                        <input type="text" value="Durugo Chuks" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Email</label>
+                                        <input type="email" value="durugo_chuks@yahoo.com" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Username</label>
+                                        <input type="text" value="Crystaldee" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Phone Number</label>
+                                        <input type="number" value="08088017116" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="messager">Home Address</label>
+                                        <textarea class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="imgFile">Upload Image</label>
+                                        <input type="file" class="form-control-file" id="imgFile" aria-describedby="fileHelp">
+                                        <small id="fileHelp" class="form-text text-muted">Please upload your photo.</small>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary btn-block">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
             <!-- EXTERNAL SCRIPTS -->
         <script src="js/jquery.min.js"></script>
         <script src="js/popper.min.js"></script>
