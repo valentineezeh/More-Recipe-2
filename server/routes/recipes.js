@@ -1,6 +1,9 @@
 import express from 'express';
-import recipes from '../controller/recipe';
-import Auth from '../middleware/auth';
+
+
+import recipes from '../controllers/recipes';
+import Auth from '../middleware/jwtMiddleware';
+
 
 const router = express.Router();
 
@@ -8,14 +11,18 @@ const router = express.Router();
 router.get('/', recipes.getAllRecipes);
 
 // get single user from database
-router.get('/:id', recipes.getSingleRecipe);
+
+
+
+router.get('/:id',  recipes.getSingleRecipe );
 
 
 // Add recipe to database
-router.post('/', Auth.verifyToken, recipes.addRecipe);
+router.post('/',  Auth.verifyToken, recipes.addRecipe );
 
 // remove recipe from the database
-router.delete('/:id', recipes.deleteRecipe);
+router.delete('/:id',  recipes.deleteRecipe);
+
 
 // update recipe route
 router.put('/:id', Auth.verifyToken, recipes.updateRecipe);
