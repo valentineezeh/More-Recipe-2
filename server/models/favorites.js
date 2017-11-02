@@ -29,8 +29,15 @@ export default (sequelize, DataTypes) => {
   // Favorites.associate = (models) => {
   //   // associations can be defined here
   //   Favorites.hasOne(models.Recipe, { foreignKey: 'recipeId', onDelete: 'SET NULL' });
+<<<<<<< HEAD
 
   // };
   return Favorites;
 };
 
+=======
+    
+  // };
+  return Favorites;
+};
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020

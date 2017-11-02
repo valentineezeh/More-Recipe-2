@@ -39,7 +39,12 @@ const createRecipe = (req, res) => {
     userId: req.decoded.userId,
     title: req.body.title,
     description: req.body.description
+<<<<<<< HEAD
   }).then(recipe => res.status(201).json({ recipe }))
+=======
+  }).then(recipe => res.status(201).json({
+    recipe }))
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
     .catch(err => res.status(400).send(err.message));
 };
 
@@ -77,6 +82,7 @@ const deleteRecipe = (req, res) => recipeListings
 
 const updateRecipe = (req, res) => {
   const updateRecord = {};
+<<<<<<< HEAD
   console.log(req.decoded.userId);
   console.log(req.params.recipeID);
   recipeListings.findOne({
@@ -84,6 +90,14 @@ const updateRecipe = (req, res) => {
       id: req.params.recipeID,
       userId: req.decoded.userId,
     }
+=======
+
+  recipeListings.findOne({
+    where: {
+      recipeId: req.params.recipeID,
+      userId: req.decoded.userId
+    },
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
   }).then((recipe) => {
     if (req.body.title) {
       updateRecord.title = req.body.title;
@@ -95,7 +109,11 @@ const updateRecipe = (req, res) => {
         updatedRecipe
       }));
   })
+<<<<<<< HEAD
     .catch((e) => res.status(401).send({
+=======
+    .catch(() => res.status(401).send({
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
       message: 'You do not have permission to modify this Recipe'
     }));
 };

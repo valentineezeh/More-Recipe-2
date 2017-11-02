@@ -1,7 +1,12 @@
 import express from 'express';
 import recipeController from '../controller/recipe';
+<<<<<<< HEAD
 import upvotesController from '../controller/upvotes';
 import reviewController from '../controller/reviews';
+=======
+// import upvotesController from '../controller/upvotes';
+// import reviewController from '../controller/reviews';
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
 import userController from '../controller/user';
 import Auth from '../middleware/auth';
 
@@ -20,9 +25,15 @@ router.post('/users/signup', userController.signUp);
 // Login route
 router.post('/users/signin', userController.signIn);
 
+<<<<<<< HEAD
 // Get Favorite recipes
 router.get('/users/:userID/recipes', Auth.verify, userController.retrieveFavorites);
 
+=======
+// // Get Favorite recipes
+// router.get('/users/:userID/recipes', Auth.verify, userController.retrieveFavorites);
+//
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
 // Retrieve all recipes
 router.get('/recipes', recipeController.retrieveRecipes);
 
@@ -37,6 +48,7 @@ router.post('/recipes/:recipeID', Auth.verify, userController.addFavorites);
 
 // Delete a recipe
 router.delete('/recipes/:recipeID', Auth.verify, recipeController.deleteRecipe);
+<<<<<<< HEAD
 
 // Update a recipe
 router.put('/recipes/:recipeID', Auth.verify, recipeController.updateRecipe);
@@ -49,6 +61,20 @@ router.post('/recipes/:recipeID/upvote', Auth.verify, upvotesController.upvoteRe
 
 // Get Recipe by Most Upvotes
 router.get('/recipe', upvotesController.mostRecipeUpvote);
+=======
+
+// Update a recipe
+router.put('/recipes/:recipeID', Auth.verify, recipeController.updateRecipe);
+
+// // Post a review
+// router.post('/recipes/:recipeID/reviews', Auth.verify, reviewController.reviewRecipe);
+//
+// // Upvote a recipe
+// router.post('/recipes/:recipeID/upvote', Auth.verify, upvotesController.upvoteRecipe);
+//
+// // Get Recipe by Most Upvotes
+// router.get('/recipe', upvotesController.mostRecipeUpvote);
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
 
 
 // A catch-all routes not define.

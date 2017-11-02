@@ -20,7 +20,11 @@ export default (sequelize, DataTypes) => {
         key: 'id'
       }
     },
+<<<<<<< HEAD
     fullName: {
+=======
+    fullname: {
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

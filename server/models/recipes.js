@@ -44,9 +44,12 @@ export default (sequelize, DataTypes) => {
   //   Recipe.hasMany(models.Favorites, { foreignKey: 'recipeId', onDelete: 'SET NULL' });
 
   // };
+<<<<<<< HEAD
   Recipe.associate = (models) => {
     // associations can be defined here
     Recipe.hasMany(models.votes, { foreignKey: 'recipeId', onDelete: 'SET NULL' });
   };
+=======
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
   return Recipe;
 };

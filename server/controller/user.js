@@ -124,6 +124,10 @@ const addFavorites = (req, res) => {
       });
     })
     .catch(err => res.status(400).send({
+<<<<<<< HEAD
+=======
+      message: err.parent.detail
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
     }));
 };
 
