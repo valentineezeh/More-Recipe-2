@@ -1,11 +1,97 @@
+import express from 'express';
+import recipeController from '../controller/recipe';
+<<<<<<< HEAD
+import upvotesController from '../controller/upvotes';
+import reviewController from '../controller/reviews';
+=======
+// import upvotesController from '../controller/upvotes';
+// import reviewController from '../controller/reviews';
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
+import userController from '../controller/user';
+import Auth from '../middleware/auth';
 
-import Recipe from '../controller/recipe';
+const router = express.Router();
 
-export default (app) => {
-  app.get('/api/recipes', Recipe.getallRecipe);
-  app.post('/api/recipes', Recipe.createRecipe);
-  app.put('/api/recipes/:recipeId', Recipe.updateRecipe);
-  app.delete('/api/recipes/:recipeId', Recipe.deleteRecipe);
-  app.get('/api/recipes/:recipeId', Recipe.retrieveRecipe);
-  app.post('/api/recipes/:recipeId/reviews', Recipe.addReview);
-};
+/* GET home page. */
+router.get('/', (req, res) => {
+  res.status(200).send({ message: 'More-Recipes' });
+});
+
+/* All API Routes */
+
+// Register a new User
+router.post('/users/signup', userController.signUp);
+
+// Login route
+router.post('/users/signin', userController.signIn);
+
+<<<<<<< HEAD
+// Get Favorite recipes
+router.get('/users/:userID/recipes', Auth.verify, userController.retrieveFavorites);
+
+=======
+// // Get Favorite recipes
+// router.get('/users/:userID/recipes', Auth.verify, userController.retrieveFavorites);
+//
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
+// Retrieve all recipes
+router.get('/recipes', recipeController.retrieveRecipes);
+
+// Retrieve single recipe
+router.get('/recipes/:recipeID', Auth.verify, recipeController.retrieveRecipe);
+
+// Add a recipe
+router.post('/recipes', Auth.verify, recipeController.createRecipe);
+
+// Add Favorite recipes
+router.post('/recipes/:recipeID', Auth.verify, userController.addFavorites);
+
+// Delete a recipe
+router.delete('/recipes/:recipeID', Auth.verify, recipeController.deleteRecipe);
+<<<<<<< HEAD
+
+// Update a recipe
+router.put('/recipes/:recipeID', Auth.verify, recipeController.updateRecipe);
+
+// Post a review
+router.post('/recipes/:recipeID/reviews', Auth.verify, reviewController.reviewRecipe);
+
+// Upvote a recipe
+router.post('/recipes/:recipeID/upvote', Auth.verify, upvotesController.upvoteRecipe);
+
+// Get Recipe by Most Upvotes
+router.get('/recipe', upvotesController.mostRecipeUpvote);
+=======
+
+// Update a recipe
+router.put('/recipes/:recipeID', Auth.verify, recipeController.updateRecipe);
+
+// // Post a review
+// router.post('/recipes/:recipeID/reviews', Auth.verify, reviewController.reviewRecipe);
+//
+// // Upvote a recipe
+// router.post('/recipes/:recipeID/upvote', Auth.verify, upvotesController.upvoteRecipe);
+//
+// // Get Recipe by Most Upvotes
+// router.get('/recipe', upvotesController.mostRecipeUpvote);
+>>>>>>> 73c676908c0910f478cbbcd581830950cc169020
+
+
+// A catch-all routes not define.
+router.get('*', (req, res) => res.status(404).json({
+  Message: 'Invalid Route'
+}));
+
+router.delete('*', (req, res) => res.status(404).json({
+  Message: 'Invalid Route'
+}));
+
+router.post('*', (req, res) => res.status(404).json({
+  Message: 'Invalid Route'
+}));
+
+router.put('*', (req, res) => res.status(404).json({
+  Message: 'Invalid Route'
+}));
+
+export default router;
