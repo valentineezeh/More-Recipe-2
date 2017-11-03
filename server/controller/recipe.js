@@ -1,51 +1,138 @@
-import recipes from '../model/recipe';
+import db from '../models';
+
+const recipeListings = db.Recipes;
+
 /**
- * @class Recipe
- * @classdesc controller class for recipes
- */
-class Recipe {
-  /**
-   *@returns {object} recipes
-   * @param {*} req
-   * @param {*} res
+   * reviewRecipe
+   * @desc adds a review to a recipe
+   * Route: POST: '/recipes/:recipeID/reviews'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
    */
-  static getallRecipe(req, res) {
-    return res.json({
-      allRecipe: recipes
+
+const retrieveRecipes = (req, res) => recipeListings
+  .all()
+  .then(recipes => res.status(200).send(recipes))
+  .catch(err => res.status(400).send(err));
+
+/**
+   * createRecipe
+   * @desc adds a review to a recipe
+   * Route: POST: '/recipes/:recipeID/reviews'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
+const createRecipe = (req, res) => {
+  if (!req.body.title || req.body.title.trim().length === 0) {
+    return res.status(400).json({
+      Message: 'Title Field should not be Empty',
+    });
+  } else if (!req.body.description || req.body.description.trim().length === 0) {
+    return res.status(400).json({
+      Message: 'Description Field should not be Empty',
     });
   }
-  /**
-   * @return {object} recipes
-   * @param {*} req
-   * @param {*} res
+  recipeListings.create({
+    userId: req.decoded.userId,
+    title: req.body.title,
+    description: req.body.description
+  }).then(recipe => res.status(201).json({
+    recipe }))
+    .catch(err => res.status(400).send(err.message));
+};
+
+/**
+   * deleteRecipe
+   * @desc deletes a recipe from catalog
+   * Route: DELETE: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
    */
-  static createRecipe(req, res) {
-    recipes.push({
-      id: recipes.length + 1,
-      upvotes: 0,
-      downvotes: 0,
-      favorite: 0,
-      views: 0,
-      title: req.body.title,
-      duration: req.body.duration,
-      image: req.body.image,
-      ingredients: req.body.ingredients,
-      procedures: req.body.procedures,
-    });
-    return res.status(201).json({
-      message: 'recipe has successfully been created',
-      id: recipes.length + 1,
-      upvotes: 0,
-      downvotes: 0,
-      favorite: 0,
-      views: 0,
-      title: req.body.title,
-      duration: req.body.duration,
-      image: req.body.image,
-      ingredients: req.body.ingredients,
-      procedures: req.body.procedures,
-    });
-  }
 
+const deleteRecipe = (req, res) => recipeListings
+  .findById(req.params.recipeID)
+  .then((recipe) => {
+    recipe
+      .destroy()
+      .then(res.status(200).send({
+        message: 'Recipe successfully deleted!'
+      }))
+      .catch(err => res.status(400).send(err));
+  })
+  .catch(() => res.status(404).send({
+    message: 'Record Not Found!'
+  }));
 
-export default Recipe;
+/**
+   * updateRecipe
+   * @desc modifies a recipe in the catalog
+   * Route: PUT: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
+const updateRecipe = (req, res) => {
+  const updateRecord = {};
+
+  recipeListings.findOne({
+    where: {
+      recipeId: req.params.recipeID,
+      userId: req.decoded.userId
+    },
+  }).then((recipe) => {
+    if (req.body.title) {
+      updateRecord.title = req.body.title;
+    } else if (req.body.description) {
+      updateRecord.description = req.body.description;
+    }
+    recipe.update(updateRecord)
+      .then(updatedRecipe => res.send({
+        updatedRecipe
+      }));
+  })
+    .catch(() => res.status(401).send({
+      message: 'You do not have permission to modify this Recipe'
+    }));
+};
+
+/**
+   * retrieveRecipe
+   * @desc gets a single recipe in the catalog
+   * Route: GET: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
+const retrieveRecipe = (req, res) => {
+  recipeListings
+    .findById(req.params.recipeID)
+    .then((recipe) => {
+      if (recipe) {
+        res.status(200).send({
+          recipe
+        });
+      } else {
+        res.status(404).send({
+          message: 'Record not Found!'
+        });
+      }
+    })
+    .catch(() => res.status(400).send({
+      message: 'Recipe not Found'
+    }));
+};
+
+/* Export all methods */
+export default {
+  retrieveRecipes,
+  createRecipe,
+  deleteRecipe,
+  updateRecipe,
+  retrieveRecipe
+};
