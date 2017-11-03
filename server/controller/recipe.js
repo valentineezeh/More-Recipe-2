@@ -109,6 +109,84 @@ const updateRecipe = (req, res) => {
    * @returns {void|Object}
    */
 
+
+
+/**
+   * deleteRecipe
+   * @desc deletes a recipe from catalog
+   * Route: DELETE: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
+const deleteRecipe = (req, res) => recipeListings
+  .findById(req.params.recipeID)
+  .then((recipe) => {
+    recipe
+      .destroy()
+      .then(res.status(200).send({
+        message: 'Recipe successfully deleted!'
+      }))
+      .catch(err => res.status(400).send(err));
+  })
+  .catch(() => res.status(404).send({
+    message: 'Record Not Found!'
+  }));
+
+/**
+   * updateRecipe
+   * @desc modifies a recipe in the catalog
+   * Route: PUT: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
+const updateRecipe = (req, res) => {
+  const updateRecord = {};
+
+  console.log(req.decoded.userId);
+  console.log(req.params.recipeID);
+  recipeListings.findOne({
+    where: {
+      id: req.params.recipeID,
+      userId: req.decoded.userId,
+    }
+
+
+
+  
+
+  }).then((recipe) => {
+    if (req.body.title) {
+      updateRecord.title = req.body.title;
+    } else if (req.body.description) {
+      updateRecord.description = req.body.description;
+    }
+    recipe.update(updateRecord)
+      .then(updatedRecipe => res.send({
+        updatedRecipe
+      }));
+  })
+
+    .catch((e) => res.status(401).send({
+
+
+
+      message: 'You do not have permission to modify this Recipe'
+    }));
+};
+
+/**
+   * retrieveRecipe
+   * @desc gets a single recipe in the catalog
+   * Route: GET: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
 const retrieveRecipe = (req, res) => {
   recipeListings
     .findById(req.params.recipeID)

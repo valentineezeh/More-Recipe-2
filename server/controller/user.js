@@ -124,9 +124,10 @@ const addFavorites = (req, res) => {
       });
     })
     .catch(err => res.status(400).send({
+
       message: err.parent.detail
-    }));
-};
+
+
 
 /**
    * retrieveFavorites
