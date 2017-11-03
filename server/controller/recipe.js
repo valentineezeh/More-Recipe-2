@@ -35,17 +35,81 @@ const createRecipe = (req, res) => {
       Message: 'Description Field should not be Empty',
     });
   }
-
   recipeListings.create({
     userId: req.decoded.userId,
     title: req.body.title,
     description: req.body.description
-
   }).then(recipe => res.status(201).json({
     recipe }))
-
     .catch(err => res.status(400).send(err.message));
 };
+
+/**
+   * deleteRecipe
+   * @desc deletes a recipe from catalog
+   * Route: DELETE: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
+const deleteRecipe = (req, res) => recipeListings
+  .findById(req.params.recipeID)
+  .then((recipe) => {
+    recipe
+      .destroy()
+      .then(res.status(200).send({
+        message: 'Recipe successfully deleted!'
+      }))
+      .catch(err => res.status(400).send(err));
+  })
+  .catch(() => res.status(404).send({
+    message: 'Record Not Found!'
+  }));
+
+/**
+   * updateRecipe
+   * @desc modifies a recipe in the catalog
+   * Route: PUT: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
+const updateRecipe = (req, res) => {
+  const updateRecord = {};
+
+  recipeListings.findOne({
+    where: {
+      recipeId: req.params.recipeID,
+      userId: req.decoded.userId
+    },
+  }).then((recipe) => {
+    if (req.body.title) {
+      updateRecord.title = req.body.title;
+    } else if (req.body.description) {
+      updateRecord.description = req.body.description;
+    }
+    recipe.update(updateRecord)
+      .then(updatedRecipe => res.send({
+        updatedRecipe
+      }));
+  })
+    .catch(() => res.status(401).send({
+      message: 'You do not have permission to modify this Recipe'
+    }));
+};
+
+/**
+   * retrieveRecipe
+   * @desc gets a single recipe in the catalog
+   * Route: GET: '/recipes/:recipeID'
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {void|Object}
+   */
+
+
 
 /**
    * deleteRecipe
